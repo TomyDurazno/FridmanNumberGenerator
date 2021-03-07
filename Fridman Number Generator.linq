@@ -18,22 +18,12 @@ void Main()
 			  .Dump();
 }
 
-public bool IsPrime(int n)
-	=> n > 1 ? Enumerable.Range(1, n)
-						 .Where(x => n % x == 0)
-						 .SequenceEqual(new[] { 1, n })
-			 : false;
+bool IsPrime(int n) => n > 1 ? Enumerable.Range(1, n)
+						 				 .Where(x => n % x == 0)
+						 				 .SequenceEqual(new[] { 1, n }) : false;
 
-int FridmanNumber(int digits)
-{
-	IEnumerable<int> FridmanSequenceGenerator(int digits)
-	{
-		foreach (int n in Enumerable.Range(2, digits).Select(e => e % 2 == 0 ? 4 : 2))
-			yield return n;
-	}
-	
-	return int.TryParse(FridmanSequenceGenerator(digits)
-							.Aggregate(new StringBuilder(),(acum, n) => acum.Append(n))
-							.ToString(), out var value) 
-			? 1 + value : throw new Exception();
-}
+int FridmanNumber(int digits) => int.TryParse(Enumerable.Range(2, digits)
+														.Select(e => e % 2 == 0 ? 4 : 2)
+														.Aggregate(new StringBuilder(),(acum, n) => acum.Append(n))
+														.ToString(), out var value) 
+													? 1 + value : throw new OverflowException();
